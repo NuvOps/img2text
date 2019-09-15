@@ -1,6 +1,6 @@
 import sys
 from chalice import Chalice, Response
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import unquote_plus
 
 app = Chalice(app_name='img2txt')
 
@@ -15,6 +15,8 @@ def messages_in():
     request = app.current_request
     raw=request.raw_body
     raw = raw.decode('ascii')
+    raw = unquote_plus(raw)
+    print (raw)
 
     l = []
     d = {}
@@ -23,7 +25,7 @@ def messages_in():
        d[l[0]] = l[1]
 
     return Response(body='<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
-                         <Response><Message>Echo: %s </Message></Response>' %d['Body'],
+                         <Response><Message>Echo: {body} from: {state}</Message></Response>'.format(body=d['Body'],state=d['FromState']),
                     status_code=200,
                     headers={'Content-Type': 'application/xml'})
 
