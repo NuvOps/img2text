@@ -1,6 +1,6 @@
 import sys
 from chalice import Chalice, Response
-from urllib.parse import unquote_plus
+from chalicelib.decoder import urlencoded_decoder
 
 app = Chalice(app_name='img2txt')
 
@@ -13,24 +13,9 @@ def index():
             content_types=['application/x-www-form-urlencoded'])
 def messages_in():
     request = app.current_request
-    raw=request.raw_body
-    raw = raw.decode('ascii')
-    raw = unquote_plus(raw)
-    print (raw)
-
-    l = []
-    d = {}
-    for i in raw.split('&'):
-       l = i.split('=')
-       d[l[0]] = l[1]
+    d = urlencoded_decoder(request.raw_body)
 
     return Response(body='<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
-                         <Response><Message>Echo: {body} from: {state}</Message></Response>'.format(body=d['Body'],state=d['FromState']),
+                         <Response><Message>Echo: {body} from: {state}</Message></Response>'.format(body=d['Body'],state=d['From']),
                     status_code=200,
                     headers={'Content-Type': 'application/xml'})
-
-
-    # parsed = parse_qs(app.current_request.raw_body.decode())
-    # return {
-    #     'states': parsed.get('states', [])
-    # }
