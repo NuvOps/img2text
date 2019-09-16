@@ -1,15 +1,16 @@
-from chalice import Chalice, Response
-import boto3
 import os
+import boto3
+from chalice import Chalice, Response
 from botocore.exceptions import ClientError
 from chalicelib.decoder import urlencoded_decoder
 from chalicelib.s3_img import img_process
+from chalicelib.rekognition import imgTotext
+from chalicelib import response_helper
 
 app = Chalice(app_name='img2txt')
 s3_client = boto3.client('s3')
-bot_name='saludobot'
+bot_name='img2txt-bot'
 S3_BUCKET=os.environ['S3_BUCKET']
-
 
 @app.route('/')
 def index():
@@ -34,18 +35,21 @@ def messages_in():
             s3_client.upload_file(tmp['tmp_img'], S3_BUCKET, tmp['image_name'])
         except ClientError as e:
             return 'error occurred during upload: %s' % e.response['Error']['Message']
+    #Only images allowed
     else:
-        return Response(body='<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
-                             <Response><Message>{name}: I can only process images =( </Message></Response>'.format(name=bot_name),
+        return Response(body=response_helper.body_invalid_type.format(name=bot_name),
                         status_code=200,
-                        headers={'Content-Type': 'application/xml'})
+                        headers=response_helper.headers)
 
 
-    ################################
-    #### Logging to Cloudwatch ####
+    #string of words
+    words = imgTotext(S3_BUCKET,tmp['image_name'])
+
+    # ################################
+    # ### Logging to Cloudwatch ######
     print (d)
     ################################
-    return Response(body='<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
-                         <Response><Message>{name}: {body} from: {state}</Message></Response>'.format(name=bot_name,body=d['Body'],state=d['From']),
+
+    return Response(body=response_helper.body_success.format(name=bot_name,body=words),
                     status_code=200,
-                    headers={'Content-Type': 'application/xml'})
+                    headers=response_helper.headers)
