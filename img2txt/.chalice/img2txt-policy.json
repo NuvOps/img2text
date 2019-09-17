@@ -1,0 +1,34 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "rekognition:DetectText"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Sid": "a5bc2fced6e94e54aa1375af8d9892a9"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::saludo-img2text",
+        "arn:aws:s3:::saludo-img2text/*"
+      ],
+      "Sid": "f2d1a3274ba84f949b7e700973977742"
+    },
+    {
+    "Sid": "CloudWatch",
+    "Effect": "Allow",
+    "Action": "logs:*",
+    "Resource": "*"
+    }
+  ]
+}
