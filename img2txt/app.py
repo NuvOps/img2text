@@ -8,7 +8,7 @@ from chalicelib.rekognition import imgTotext
 from chalicelib import response_helper
 
 app = Chalice(app_name='img2txt')
-bot_name='img2txt-bot'
+bot_name='img2txt-🤖'
 S3_BUCKET=os.environ['S3_BUCKET']
 
 @app.route('/')
