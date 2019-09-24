@@ -1,0 +1,15 @@
+{
+  "version": "2.0",
+  "app_name": "img2txt",
+  "stages": {
+    "dev": {
+      "autogen_policy": false,
+      "iam_policy_file": "img2txt-policy.json",
+      "api_gateway_stage": "api",
+      "environment_variables": {
+          "S3_BUCKET": "test-bucket",
+          "FB_TOKEN" : "test-token"
+     }
+    }
+  }
+}

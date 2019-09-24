@@ -7,7 +7,9 @@
       "iam_policy_file": "img2txt-policy.json",
       "api_gateway_stage": "api",
       "environment_variables": {
-          "S3_BUCKET": "saludo-img2text"
+          "S3_BUCKET": "saludo-img2text",
+          "FB_TOKEN" : "EAANSWPIpYZC0BAP3xRbbM1TErQvZC529qC65gTv6Qp6AyCUswseRTWh2At6cAssH7L5nBtRBVdZAxavlgA4yYfMvfu8RgBH5NEN46NsmoMAC40m0MbyEOQC1mtnCyzZCMUL42fO9j482PafqSgKRohvHycZBYdI0ZCFRZB60HMSxgZDZD",
+          "VERIFY_TOKEN": "HT38mD3zVPU6mvwOu2O1KKU4osh4aqLw"
      }
     }
   }

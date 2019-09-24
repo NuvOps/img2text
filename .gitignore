@@ -1,0 +1,7 @@
+venv
+*.pyc
+__pycache__
+img2txt/.chalice/deployed/
+img2txt/.chalice/venv/
+img2txt/.chalice/deployments/
+img2txt/.chalice/config.json
